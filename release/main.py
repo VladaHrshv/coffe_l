@@ -1,14 +1,14 @@
 from main_ui import Ui_MainWindow
+from addEditCoffeeForm import Ui_Form
 import sqlite3
 import sys
-from PyQt5 import uic  # Импортируем uic
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QTableWidgetItem, QHeaderView, QAbstractScrollArea
+from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem
 
 
-class MainWindow(Ui_MainWindow):
+class MainWindow(Ui_MainWindow, QMainWindow):
     def __init__(self):
         super().__init__()
-        #  uic.loadUi('main.ui', self)
+        self.setupUi(self)
         self.initUI()
         self.pushButton.clicked.connect(self.add_notes)
         self.pushButton_2.clicked.connect(self.update_notes)
@@ -52,11 +52,11 @@ class MainWindow(Ui_MainWindow):
             self.statusBar().showMessage("Вы не выделили ни одного элемента для редактирования")
 
 
-class AddCoffeeWindow(QMainWindow):
+class AddCoffeeWindow(QMainWindow, Ui_Form):
     # Форма для добавления новых записей
     def __init__(self, parent):
         super().__init__()
-        uic.loadUi("addEditCoffeeForm.ui", self)
+        self.setupUi(self)
         self.parent = parent
         self.initUI()
 
@@ -115,11 +115,11 @@ class AddCoffeeWindow(QMainWindow):
         return correct
 
 
-class CorrectCoffeeWindow(QMainWindow):
+class CorrectCoffeeWindow(QMainWindow, Ui_Form):
     # Форма для корректирования записей по id ряда
     def __init__(self, parent, id):
         super().__init__()
-        uic.loadUi("addEditCoffeeForm.ui", self)
+        self.setupUi(self)
         self.parent = parent
         self.id = id
         self.initUI()
@@ -189,8 +189,6 @@ class CorrectCoffeeWindow(QMainWindow):
         if not sort or not degree or not description or not cost or not volume:
             correct = 0
         return correct
-
-
 
 
 def except_hook(cls, exception, traceback):
